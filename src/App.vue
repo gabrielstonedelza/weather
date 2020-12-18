@@ -19,22 +19,30 @@
 </template>
 
 <script>
+import my_api_key from './key'
 export default {
   name: "App",
   data() {
     return {
-      api_key: "b6f605da1282f3cb792484139be54f18",
+      api_key: my_api_key,
       url_base: "https://api.openweathermap.org/data/2.5/",
       query: "",
-      weather: {}
+      weather: {},
+      w_list : ['rain','snow','clear','warm','cold']
     };
   },
   methods: {
+    // changeBackground(){
+    //   if(this.weather.main != null){
+    //     if(this.weathe)
+    //   }
+    // },
     fetchWeather(e){
       if(e.key == "Enter"){
         fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`,{method:'get'})
         .then((res)=>{
-          return res.json()
+          const results = res.json()
+          return results
         }).then(this.setResults)
       }
     },
@@ -77,6 +85,19 @@ body {
 #app.warm{
   background-image: url('./assets/warm-01.jpg');
 }
+
+#app.rain{
+  background-image: url('./assets/raining.gif');
+}
+
+#app.snow{
+  background-image: url('./assets/snowing.gif');
+}
+
+#app.clear{
+  background-image: url('./assets/clear-sky.jpeg');
+}
+
 main{
   min-height: 100vh;
   padding: 25px;
