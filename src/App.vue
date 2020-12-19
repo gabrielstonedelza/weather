@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm': ''">
+  <div id="app" :class="typeof weather.main != 'undefined' && weather.weather[0].main == 'Warm' ? 'warm': '' || typeof weather.main != 'undefined' && weather.weather[0].main == 'Mist' ? 'mist': '' || typeof weather.main != 'undefined' && weather.weather[0].main == 'Clouds' ? 'clouds': '' || typeof weather.main != 'undefined' && weather.weather[0].main == 'Clear' ? 'clear': '' || typeof weather.main != 'undefined' && weather.weather[0].main == 'Rain' ? 'rain': '' || typeof weather.main != 'undefined' && weather.weather[0].main == 'Snow' ? 'snow': '' ">
     <main>
       <div class="search-box">
         <input type="text" class="search-bar" placeholder="Search..." v-model="query" @keypress="fetchWeather"/>
@@ -20,6 +20,7 @@
 
 <script>
 import my_api_key from './key'
+
 export default {
   name: "App",
   data() {
@@ -28,15 +29,11 @@ export default {
       url_base: "https://api.openweathermap.org/data/2.5/",
       query: "",
       weather: {},
-      w_list : ['rain','snow','clear','warm','cold']
+      has_results: false
     };
   },
   methods: {
-    // changeBackground(){
-    //   if(this.weather.main != null){
-    //     if(this.weathe)
-    //   }
-    // },
+
     fetchWeather(e){
       if(e.key == "Enter"){
         fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`,{method:'get'})
@@ -97,7 +94,13 @@ body {
 #app.clear{
   background-image: url('./assets/clear-sky.jpeg');
 }
+#app.clouds{
+  background-image: url('./assets/Cartoon_Clouds_Vector-01.jpg');
+}
 
+#app.mist{
+  background-image: url('./assets/mist.gif');
+}
 main{
   min-height: 100vh;
   padding: 25px;
